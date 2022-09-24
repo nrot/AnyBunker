@@ -1,0 +1,1 @@
+ALTER TABLE log_log DROP COLUMN index;

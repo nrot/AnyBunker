@@ -1,0 +1,1 @@
+ALTER TABLE public.log_report ADD COLUMN IF NOT EXISTS columns VARCHAR ARRAY;

@@ -1,0 +1,37 @@
+[package]
+name = "AnyBunker"
+version = "0.1.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+actix-web = "4.2"
+chrono = "0.4"
+sqlx = {version="0.6", features=["runtime-tokio-rustls", "postgres", "migrate", "uuid", "chrono", "json"]}
+log = "0.4"
+serde = {version="1.0", features=["derive"]}
+serde_json = "1.0"
+simple_logger = { version = "2.3", features = ["colors"] }
+tokio = { version = "1.21", features = ["rt", "time", "sync", "signal"] }
+futures = "0.3"
+dptree = "0.3"
+mime = "0.3"
+uuid = { version = "1.1", features = ["serde", "v4"] }
+sea-orm = { version = "0.9", features = ["sqlx-postgres", "runtime-tokio-rustls", "sqlx-dep"] }
+sea-query = {version="0.26", features=["derive", "thread-safe", "backend-postgres", "with-chrono", "with-json", "with-uuid", "sqlx-postgres","postgres"]}
+ts-rs = {version = "6.2", features=["uuid", "uuid-impl", "format", "chrono", "chrono-impl", "bytes"]}
+utoipa = { version="2.0", features = ["actix_extras"] }
+utoipa-swagger-ui = {version="2.0", features = ["actix-web"] }
+actix-cors = "0.6"
+syntect="5.0"
+cached="0.39"
+dotenv = "0.15"
+cron="0.11"
+tonic = "0.8"
+prost = "0.11"
+prost-types = "0.11"
+
+
+[build-dependencies]
+tonic-build = { version="0.8", features = ["prost"] }
