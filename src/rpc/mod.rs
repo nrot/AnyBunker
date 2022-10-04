@@ -1,19 +1,19 @@
 use sea_orm::DatabaseConnection;
 use tonic::{Request, Response, Status, transport::Server};
 
-pub mod rpc;
+mod rpc;
 
-use crate::core;
+use crate::{core, credentials};
 
-pub struct RpcLogServer{
+pub struct RpcServer{
     db: DatabaseConnection,
 }
 
 type RequestResult<T> = Result<Response<T>, Status>;
 
 #[tonic::async_trait]
-impl rpc::logger_server::Logger for RpcLogServer{
-    async fn send_message(&self, request: Request<rpc::LogMessage>)->RequestResult<rpc::ResultMessage>{
+impl rpc::saver_server::Saver for RpcServer{
+    async fn send_message(&self, request: Request<rpc::Message>)->RequestResult<rpc::ResultMessage>{
         let m = request.get_ref();
         log::info!("rpc request: {:?}", m);
         let v = if let Ok(v) = serde_json::from_str(m.data.as_str()) {
@@ -22,6 +22,7 @@ impl rpc::logger_server::Logger for RpcLogServer{
             return Err(Status::invalid_argument("Can`t convert json from data"))
         };
         if let Err(e) = core::insert_message(&self.db, &m.index, v).await{
+            log::error!("Can`t inser value: {}", e);
             return Err(Status::internal("Can`t insert value"));
         };
         Ok(Response::new(rpc::ResultMessage{
@@ -32,13 +33,12 @@ impl rpc::logger_server::Logger for RpcLogServer{
 
 pub async fn run(db: DatabaseConnection){
     log::info!("Rpc server starting");
-    //TODO: Move to env
-    let addr = "[::1]:50051".parse().unwrap();
-    let server = RpcLogServer{
+    let addr = credentials::grpcserver_bind_uri().parse().unwrap();
+    let server = RpcServer{
         db
     };
 
-    let svc = rpc::logger_server::LoggerServer::new(server);
+    let svc = rpc::saver_server::SaverServer::new(server);
 
     Server::builder().add_service(svc).serve(addr).await.unwrap();
 }

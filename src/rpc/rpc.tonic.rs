@@ -1,15 +1,15 @@
 // @generated
 /// Generated client implementations.
-pub mod logger_client {
+pub mod saver_client {
     #![allow(unused_variables, dead_code, missing_docs, clippy::let_unit_value)]
     use tonic::codegen::*;
     use tonic::codegen::http::Uri;
     ///
     #[derive(Debug, Clone)]
-    pub struct LoggerClient<T> {
+    pub struct SaverClient<T> {
         inner: tonic::client::Grpc<T>,
     }
-    impl LoggerClient<tonic::transport::Channel> {
+    impl SaverClient<tonic::transport::Channel> {
         /// Attempt to create a new client by connecting to a given endpoint.
         pub async fn connect<D>(dst: D) -> Result<Self, tonic::transport::Error>
         where
@@ -20,7 +20,7 @@ pub mod logger_client {
             Ok(Self::new(conn))
         }
     }
-    impl<T> LoggerClient<T>
+    impl<T> SaverClient<T>
     where
         T: tonic::client::GrpcService<tonic::body::BoxBody>,
         T::Error: Into<StdError>,
@@ -38,7 +38,7 @@ pub mod logger_client {
         pub fn with_interceptor<F>(
             inner: T,
             interceptor: F,
-        ) -> LoggerClient<InterceptedService<T, F>>
+        ) -> SaverClient<InterceptedService<T, F>>
         where
             F: tonic::service::Interceptor,
             T::ResponseBody: Default,
@@ -52,7 +52,7 @@ pub mod logger_client {
                 http::Request<tonic::body::BoxBody>,
             >>::Error: Into<StdError> + Send + Sync,
         {
-            LoggerClient::new(InterceptedService::new(inner, interceptor))
+            SaverClient::new(InterceptedService::new(inner, interceptor))
         }
         /// Compress requests with the given encoding.
         ///
@@ -72,7 +72,7 @@ pub mod logger_client {
         ///
         pub async fn send_message(
             &mut self,
-            request: impl tonic::IntoRequest<super::LogMessage>,
+            request: impl tonic::IntoRequest<super::Message>,
         ) -> Result<tonic::Response<super::ResultMessage>, tonic::Status> {
             self.inner
                 .ready()
@@ -84,33 +84,33 @@ pub mod logger_client {
                     )
                 })?;
             let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static("/rpc.Logger/SendMessage");
+            let path = http::uri::PathAndQuery::from_static("/rpc.Saver/SendMessage");
             self.inner.unary(request.into_request(), path, codec).await
         }
     }
 }
 /// Generated server implementations.
-pub mod logger_server {
+pub mod saver_server {
     #![allow(unused_variables, dead_code, missing_docs, clippy::let_unit_value)]
     use tonic::codegen::*;
-    ///Generated trait containing gRPC methods that should be implemented for use with LoggerServer.
+    ///Generated trait containing gRPC methods that should be implemented for use with SaverServer.
     #[async_trait]
-    pub trait Logger: Send + Sync + 'static {
+    pub trait Saver: Send + Sync + 'static {
         ///
         async fn send_message(
             &self,
-            request: tonic::Request<super::LogMessage>,
+            request: tonic::Request<super::Message>,
         ) -> Result<tonic::Response<super::ResultMessage>, tonic::Status>;
     }
     ///
     #[derive(Debug)]
-    pub struct LoggerServer<T: Logger> {
+    pub struct SaverServer<T: Saver> {
         inner: _Inner<T>,
         accept_compression_encodings: EnabledCompressionEncodings,
         send_compression_encodings: EnabledCompressionEncodings,
     }
     struct _Inner<T>(Arc<T>);
-    impl<T: Logger> LoggerServer<T> {
+    impl<T: Saver> SaverServer<T> {
         pub fn new(inner: T) -> Self {
             Self::from_arc(Arc::new(inner))
         }
@@ -144,9 +144,9 @@ pub mod logger_server {
             self
         }
     }
-    impl<T, B> tonic::codegen::Service<http::Request<B>> for LoggerServer<T>
+    impl<T, B> tonic::codegen::Service<http::Request<B>> for SaverServer<T>
     where
-        T: Logger,
+        T: Saver,
         B: Body + Send + 'static,
         B::Error: Into<StdError> + Send + 'static,
     {
@@ -162,10 +162,10 @@ pub mod logger_server {
         fn call(&mut self, req: http::Request<B>) -> Self::Future {
             let inner = self.inner.clone();
             match req.uri().path() {
-                "/rpc.Logger/SendMessage" => {
+                "/rpc.Saver/SendMessage" => {
                     #[allow(non_camel_case_types)]
-                    struct SendMessageSvc<T: Logger>(pub Arc<T>);
-                    impl<T: Logger> tonic::server::UnaryService<super::LogMessage>
+                    struct SendMessageSvc<T: Saver>(pub Arc<T>);
+                    impl<T: Saver> tonic::server::UnaryService<super::Message>
                     for SendMessageSvc<T> {
                         type Response = super::ResultMessage;
                         type Future = BoxFuture<
@@ -174,7 +174,7 @@ pub mod logger_server {
                         >;
                         fn call(
                             &mut self,
-                            request: tonic::Request<super::LogMessage>,
+                            request: tonic::Request<super::Message>,
                         ) -> Self::Future {
                             let inner = self.0.clone();
                             let fut = async move {
@@ -215,7 +215,7 @@ pub mod logger_server {
             }
         }
     }
-    impl<T: Logger> Clone for LoggerServer<T> {
+    impl<T: Saver> Clone for SaverServer<T> {
         fn clone(&self) -> Self {
             let inner = self.inner.clone();
             Self {
@@ -225,7 +225,7 @@ pub mod logger_server {
             }
         }
     }
-    impl<T: Logger> Clone for _Inner<T> {
+    impl<T: Saver> Clone for _Inner<T> {
         fn clone(&self) -> Self {
             Self(self.0.clone())
         }
@@ -235,7 +235,7 @@ pub mod logger_server {
             write!(f, "{:?}", self.0)
         }
     }
-    impl<T: Logger> tonic::server::NamedService for LoggerServer<T> {
-        const NAME: &'static str = "rpc.Logger";
+    impl<T: Saver> tonic::server::NamedService for SaverServer<T> {
+        const NAME: &'static str = "rpc.Saver";
     }
 }

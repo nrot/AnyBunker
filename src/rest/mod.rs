@@ -6,21 +6,15 @@ use crate::{core::{self, Database, error}, rest::schemes::Success};
 
 use actix_cors::Cors;
 use actix_web::{get, post, web, HttpRequest};
-use chrono::Utc;
-use futures::FutureExt;
-use sea_orm::{
-    sea_query::{Query, PostgresQueryBuilder},
-    ActiveValue::{Set}, DatabaseConnection, prelude::{DateTimeWithTimeZone}, ConnectionTrait, Statement,
-};
+
+
 
 use utoipa::OpenApi;
 use utoipa_swagger_ui::SwaggerUi;
 
-use crate::{event, utils::with_schema};
-use crate::model::log_log as LogLog;
+use crate::event;
 
 use super::schemes as gschemes;
-
 
 
 pub fn routing(cfg: &mut web::ServiceConfig) {

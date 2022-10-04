@@ -11,7 +11,7 @@ pub mod error;
 
 pub type Database = web::Data<DatabaseConnection>;
 
-pub async fn insert_message(db: &DatabaseConnection, index: &String, data: serde_json::Value)->error::Result<()>{
+pub async fn insert_message(db: &DatabaseConnection, index: &str, data: serde_json::Value)->error::Result<()>{
     let tr = with_schema(index);
     let date: DateTimeWithTimeZone = Utc::now().into();
     

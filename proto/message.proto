@@ -4,7 +4,7 @@ package rpc;
 // option java_package = "";
 // option java_outer_classname = "";
 
-message LogMessage {
+message Message {
     string index = 1;
     string password = 2;
     string data=3;
@@ -14,6 +14,6 @@ message ResultMessage {
     bool ok = 1;
 }
 
-service Logger{
-    rpc SendMessage (LogMessage) returns (ResultMessage);
+service Saver{
+    rpc SendMessage (Message) returns (ResultMessage);
 }

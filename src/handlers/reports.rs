@@ -38,7 +38,7 @@ pub async fn create_report(
             let m = match LogReport::Entity::find_by_id(index)
                 .one(&db)
                 .await
-                .expect(&format!("Can`t get report by id: {}", index))
+                .unwrap_or_else(|_| panic!("Can`t get report by id: {}", index))
             {
                 Some(m) => m,
                 None => {
@@ -101,7 +101,7 @@ async fn report_to_file(
     log::info!("from start: {}", from_start);
     let db: Arc<DatabaseConnection> = dp.get();
 
-    let index = match LogIndex::Entity::find_by_id(r.index.clone().unwrap())
+    let index = match LogIndex::Entity::find_by_id(r.index.unwrap())
         .one(db.as_ref())
         .await?
     {
@@ -129,7 +129,7 @@ async fn report_to_file(
     let columns: Vec<Vec<String>> = if let Ok(v) = serde_json::from_value::<Vec<String>>(col_value)
     {
         v.into_iter()
-            .map(|v| v.split(".").map(String::from).collect::<Vec<String>>())
+            .map(|v| v.split('.').map(String::from).collect::<Vec<String>>())
             .collect()
     } else {
         log::error!("Can`t parse columns: {}", r.id);
@@ -180,11 +180,11 @@ async fn report_to_file(
             }
             match v {
                 Json::String(s) => row += &format!("{},", serde_json::to_string(s)?),
-                Json::Null => row += &"",
-                s => row += &format!("\"{}\",", serde_json::to_string(s)?.replace("\"", "\'")),
+                Json::Null => row += "",
+                s => row += &format!("\"{}\",", serde_json::to_string(s)?.replace('\"', "\'")),
             };
         }
-        f.write_all(row.trim_end_matches(",").as_bytes()).await?;
+        f.write_all(row.trim_end_matches(',').as_bytes()).await?;
         f.write_all(b"\r\n").await?;
         f.flush().await?;
     }

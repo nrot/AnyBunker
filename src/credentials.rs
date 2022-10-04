@@ -32,3 +32,9 @@ pub fn httpserver_bind_uri()->String{
 pub fn bus_size()->usize{
     env::var("BUS_SIZE").unwrap_or_else(|_| "1024".into()).parse::<usize>().expect("Can`t parse BUS_SIZE as usize (u32/u64)")
 }
+
+#[allow(non_snake_case)]
+#[once]
+pub fn grpcserver_bind_uri()->String{
+    env::var("GRPCSERVER_BIND_URI").unwrap_or_else(|_| "[::1]:50051".into())
+}

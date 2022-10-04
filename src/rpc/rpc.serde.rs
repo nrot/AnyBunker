@@ -1,5 +1,5 @@
 // @generated
-impl serde::Serialize for LogMessage {
+impl serde::Serialize for Message {
     #[allow(deprecated)]
     fn serialize<S>(&self, serializer: S) -> std::result::Result<S::Ok, S::Error>
     where
@@ -16,7 +16,7 @@ impl serde::Serialize for LogMessage {
         if !self.data.is_empty() {
             len += 1;
         }
-        let mut struct_ser = serializer.serialize_struct("rpc.LogMessage", len)?;
+        let mut struct_ser = serializer.serialize_struct("rpc.Message", len)?;
         if !self.index.is_empty() {
             struct_ser.serialize_field("index", &self.index)?;
         }
@@ -29,7 +29,7 @@ impl serde::Serialize for LogMessage {
         struct_ser.end()
     }
 }
-impl<'de> serde::Deserialize<'de> for LogMessage {
+impl<'de> serde::Deserialize<'de> for Message {
     #[allow(deprecated)]
     fn deserialize<D>(deserializer: D) -> std::result::Result<Self, D::Error>
     where
@@ -79,13 +79,13 @@ impl<'de> serde::Deserialize<'de> for LogMessage {
         }
         struct GeneratedVisitor;
         impl<'de> serde::de::Visitor<'de> for GeneratedVisitor {
-            type Value = LogMessage;
+            type Value = Message;
 
             fn expecting(&self, formatter: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-                formatter.write_str("struct rpc.LogMessage")
+                formatter.write_str("struct rpc.Message")
             }
 
-            fn visit_map<V>(self, mut map: V) -> std::result::Result<LogMessage, V::Error>
+            fn visit_map<V>(self, mut map: V) -> std::result::Result<Message, V::Error>
                 where
                     V: serde::de::MapAccess<'de>,
             {
@@ -114,14 +114,14 @@ impl<'de> serde::Deserialize<'de> for LogMessage {
                         }
                     }
                 }
-                Ok(LogMessage {
+                Ok(Message {
                     index: index__.unwrap_or_default(),
                     password: password__.unwrap_or_default(),
                     data: data__.unwrap_or_default(),
                 })
             }
         }
-        deserializer.deserialize_struct("rpc.LogMessage", FIELDS, GeneratedVisitor)
+        deserializer.deserialize_struct("rpc.Message", FIELDS, GeneratedVisitor)
     }
 }
 impl serde::Serialize for ResultMessage {

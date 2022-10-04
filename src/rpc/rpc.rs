@@ -1,6 +1,6 @@
 // @generated
 #[derive(Clone, PartialEq, ::prost::Message)]
-pub struct LogMessage {
+pub struct Message {
     #[prost(string, tag="1")]
     pub index: ::prost::alloc::string::String,
     #[prost(string, tag="2")]
