@@ -3,7 +3,7 @@ use actix_web::{body::EitherBody, web::Json, Responder};
 use serde::{Deserialize, Serialize};
 use ts_rs::TS;
 
-pub mod log_response;
+pub mod response;
 pub mod rvec;
 pub mod report;
 

@@ -167,7 +167,7 @@ async fn search_list(
     db: Database,
     index: web::Path<String>,
     q: web::Query<SearchQuery>,
-) -> Result<RVec<schemes::log_response::LogResponse>> {
+) -> Result<RVec<schemes::response::Response>> {
     admin_auth(&req, db.as_ref()).await?;
 
     let ind = index.into_inner();
@@ -207,7 +207,7 @@ async fn search_list(
         .await?;
     let mut to_response = Vec::new();
     for r in res {
-        to_response.push(schemes::log_response::LogResponse::from(
+        to_response.push(schemes::response::Response::from(
             LogLog::Model::from_query_result(&r, "")?,
         )); //
     }

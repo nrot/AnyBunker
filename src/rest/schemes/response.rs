@@ -6,16 +6,16 @@ use ts_rs::TS;
 
 #[derive(Debug, Serialize, Deserialize, Clone, TS)]
 #[ts(export)]
-pub(crate) struct LogResponse {
+pub(crate) struct Response {
     // pub index: Option<String>,
     pub timestamp: DateTime<FixedOffset>,
     #[ts(type="any")]
     pub data: sea_orm::JsonValue,
 }
 
-impl From<model::log_log::Model> for LogResponse {
+impl From<model::log_log::Model> for Response {
     fn from(m: model::log_log::Model) -> Self {
-        LogResponse {
+        Response {
             // index: Some(m.index),
             timestamp: m.timestamp.unwrap_or_else(|| {
                 let time: chrono::DateTime<chrono::FixedOffset> = chrono::Local::now().into();
@@ -27,13 +27,13 @@ impl From<model::log_log::Model> for LogResponse {
     }
 }
 
-impl From<LogResponse> for Json<LogResponse>{
-    fn from(l: LogResponse) -> Self {
+impl From<Response> for Json<Response>{
+    fn from(l: Response) -> Self {
         Json(l)
     }
 }
 
-impl Responder for LogResponse {
+impl Responder for Response {
     type Body = EitherBody<String>;
     fn respond_to(self, req: &actix_web::HttpRequest) -> actix_web::HttpResponse<Self::Body> {
         Json::respond_to(self.into(), req)
