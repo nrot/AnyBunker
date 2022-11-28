@@ -12,25 +12,26 @@ sqlx = {version="0.6", features=["runtime-tokio-rustls", "postgres", "migrate", 
 log = "0.4"
 serde = {version="1.0", features=["derive"]}
 serde_json = "1.0"
-simple_logger = { version = "2.3", features = ["colors"] }
-tokio = { version = "1.21", features = ["rt", "time", "sync", "signal"] }
+simple_logger = { version = "4.0", features = ["colors"] }
+tokio = { version = "1.22", features = ["rt", "time", "sync", "signal"] }
 futures = "0.3"
 dptree = "0.3"
 mime = "0.3"
-uuid = { version = "1.1", features = ["serde", "v4"] }
-sea-orm = { version = "0.9", features = ["sqlx-postgres", "runtime-tokio-rustls", "sqlx-dep"] }
-sea-query = {version="0.26", features=["derive", "thread-safe", "backend-postgres", "with-chrono", "with-json", "with-uuid", "sqlx-postgres","postgres"]}
+uuid = { version = "1.2", features = ["serde", "v4"] }
+sea-orm = { version = "0.10", features = ["sqlx-postgres", "runtime-tokio-rustls", "sqlx-dep"] }
+sea-query = {version="0.27", features=["derive", "thread-safe", "backend-postgres", "with-chrono", "with-json", "with-uuid"]} #"postgres-array"
 ts-rs = {version = "6.2", features=["uuid", "uuid-impl", "format", "chrono", "chrono-impl", "bytes"]}
 utoipa = { version="2.0", features = ["actix_extras"] }
-utoipa-swagger-ui = {version="2.0", features = ["actix-web"] }
+utoipa-swagger-ui = {version="3.0", features = ["actix-web"] }
 actix-cors = "0.6"
 syntect="5.0"
-cached="0.39"
+cached="0.40"
 dotenv = "0.15"
-cron="0.11"
+cron="0.12"
 tonic = "0.8"
 prost = "0.11"
 prost-types = "0.11"
+tracing = { version = "0.1.37", features = ["log"] }
 
 
 [build-dependencies]

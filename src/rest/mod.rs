@@ -68,7 +68,7 @@ async fn insert_json(
     db: Database,
     _e: web::Data<event::SenderEvents>,
 ) -> error::Result<schemes::Success> {
-    auth::auth_client(ah.as_ref(), &data.index, &data.password).await?;
+    auth::auth_client(ah.as_ref(), &data.index, &data.token).await?;
 
     let index = data.0.index.clone();
 

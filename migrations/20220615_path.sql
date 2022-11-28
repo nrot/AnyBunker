@@ -1,3 +1,8 @@
+-- TODO: THIS NEED CREATE FROM SUPERUSER;
+
+SELECT 'THIS NEED CREATE FROM SUPERUSER';
+-- exit
+
 -- CREATE EXTENSION IF NOT EXISTS plpython3u;
 -- create EXTENSION IF NOT EXISTS jsonb_plpython3u;
 -- create or replace function jsonb_recursive(val jsonb) returns table(key varchar)

@@ -1,3 +1,4 @@
+CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 CREATE TABLE log_admin_user
 (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),

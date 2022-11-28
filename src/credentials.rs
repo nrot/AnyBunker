@@ -24,7 +24,9 @@ pub fn postgres_connections()->u32{
 #[allow(non_snake_case)]
 #[once]
 pub fn httpserver_bind_uri()->String{
-    env::var("HTTPSERVER_BIND_URI").unwrap_or_else(|_| "127.0.0.1:8500".into())
+    let r = env::var("HTTPSERVER_BIND_URI").unwrap_or_else(|_| "127.0.0.1:8500".into());
+    log::info!("HTTPSERVER_BIND_URI: {}", r);
+    r
 }
 
 #[allow(non_snake_case)]

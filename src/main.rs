@@ -33,7 +33,9 @@ async fn main() {
     })
     .unwrap();
 
-    dotenv().ok();
+    let e = dotenv().ok();
+    log::info!("Env: {:?}", e);
+
 
     log::info!("Server start");
 

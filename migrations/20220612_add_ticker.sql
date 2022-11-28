@@ -1,3 +1,4 @@
+-- To view table schema
 -- CREATE TABLE log_admin_ticks
 -- (
 --     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),

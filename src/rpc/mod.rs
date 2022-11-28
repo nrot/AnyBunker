@@ -40,5 +40,7 @@ pub async fn run(db: DatabaseConnection){
 
     let svc = rpc::saver_server::SaverServer::new(server);
 
-    Server::builder().add_service(svc).serve(addr).await.unwrap();
+    Server::builder().trace_fn(|_|{
+        tracing::info_span!("Grpc request: ")
+    }).add_service(svc).serve(addr).await.unwrap();
 }

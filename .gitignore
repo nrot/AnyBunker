@@ -10,3 +10,6 @@ bin
 **/*.rs.bk
 
 .vscode/
+deploy.sh
+AnyBunker
+.cargo/

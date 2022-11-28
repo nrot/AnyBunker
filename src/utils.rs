@@ -12,6 +12,7 @@ use std::path::Path;
 
 use crate::credentials;
 
+#[allow(dead_code)]
 #[deprecated]
 #[inline(always)]
 pub fn json_html_syntect(s: String) -> String {

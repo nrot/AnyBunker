@@ -66,9 +66,9 @@ pub async fn access_rules(
             .await
             .unwrap().unwrap();
         match hm.get_mut(li.name.as_ref().unwrap()) {
-            Some(p) => p.push(a.password.clone().unwrap()),
+            Some(p) => p.push(a.token.clone().unwrap()),
             None => {
-                hm.insert(li.name.unwrap(), vec![a.password.clone().unwrap()]);
+                hm.insert(li.name.unwrap(), vec![a.token.clone().unwrap()]);
             }
         }
     }

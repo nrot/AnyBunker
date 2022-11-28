@@ -8,7 +8,7 @@ use futures::future::LocalBoxFuture;
 
 use crate::schemes;
 
-///Функция простой авторизации пользователя. Потому что actix не умеет в middleweare для группы запросов - все или ни чего.
+///Функция простой авторизации пользователя.
 #[inline(always)]
 pub async fn auth_client(ah: &schemes::AccessHashMap, index: &String, password: &String)->Result<(), Error>{
     if let Some(p) = ah.inner().read().await.get(index){
@@ -91,7 +91,7 @@ where
                 if let Ok(data) = <Json<schemes::LogMessage> as FromRequest>::from_request(r, p).await{
                     let h = hm.inner().read().await;
                     if let Some(p) = h.get(&data.index) {
-                        if !p.contains(&data.password) {
+                        if !p.contains(&data.token) {
                             return Err(actix_web::error::ErrorUnauthorized(""));
                         }
                     }

@@ -25,7 +25,7 @@ impl AccessHashMap {
 #[derive(Serialize, Deserialize, Debug, Clone, ToSchema)]
 pub struct LogMessage {
     pub index: String,
-    pub password: String,
+    pub token: String,
     pub data: serde_json::Value,
 }
 
