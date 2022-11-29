@@ -40,3 +40,11 @@ pub fn bus_size()->usize{
 pub fn grpcserver_bind_uri()->String{
     env::var("GRPCSERVER_BIND_URI").unwrap_or_else(|_| "[::1]:50051".into())
 }
+
+#[allow(non_snake_case)]
+#[once]
+pub fn allowed_origin()->Vec<String>{
+    let r = env::var("ALLOWED_ORIGIN").unwrap_or_else(|_|"http://localhost:3000/".into()).split(';').map(String::from).collect();
+    log::debug!("ALLOWED_ORIGIN: {:?}", r);
+    r
+}

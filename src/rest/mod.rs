@@ -2,7 +2,7 @@ mod admin;
 mod auth;
 mod schemes;
 
-use crate::{core::{self, Database, error}, rest::schemes::Success};
+use crate::{core::{self, Database, error}, rest::schemes::Success, credentials};
 
 use actix_cors::Cors;
 use actix_web::{get, post, web, HttpRequest};
@@ -28,10 +28,13 @@ pub fn routing(cfg: &mut web::ServiceConfig) {
 pub fn cors() -> Cors {
     use actix_web::http;
 
-    Cors::default()
-        .allowed_origin("http://localhost:3000/")
-        .allowed_origin("https://admin.dreamwhite.ru")
-        .allowed_methods(vec!["GET", "POST"])
+    let mut c = Cors::default();
+
+    for origin in credentials::allowed_origin(){
+        c = c.allowed_origin(&origin);
+    }
+
+    c.allowed_methods(vec!["GET", "POST"])
         .allowed_headers(vec![http::header::AUTHORIZATION, http::header::ACCEPT])
         .allowed_header(http::header::CONTENT_TYPE)
         .max_age(60 * 60 * 24)
