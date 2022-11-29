@@ -166,7 +166,7 @@ async fn search_list(
     req: HttpRequest,
     db: Database,
     index: web::Path<String>,
-    q: web::Query<SearchQuery>,
+    web::Query(q): web::Query<SearchQuery>,
 ) -> Result<RVec<schemes::response::Response>> {
     admin_auth(&req, db.as_ref()).await?;
 
@@ -191,6 +191,7 @@ async fn search_list(
             Some(v) => format!(r#""data" @@ '{}'"#, v),
             None => String::from("1 = 1"),
         }))
+        .order_by(LogLog::Column::Timestamp, sea_orm::Order::Desc)
         .limit(q.take.unwrap_or(10))
         .offset(q.skip.unwrap_or(0));
     if let Some(te) = q.time_end {
