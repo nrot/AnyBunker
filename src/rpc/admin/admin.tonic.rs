@@ -1,15 +1,15 @@
 // @generated
 /// Generated client implementations.
-pub mod saver_client {
+pub mod admin_panel_client {
     #![allow(unused_variables, dead_code, missing_docs, clippy::let_unit_value)]
     use tonic::codegen::*;
     use tonic::codegen::http::Uri;
     ///
     #[derive(Debug, Clone)]
-    pub struct SaverClient<T> {
+    pub struct AdminPanelClient<T> {
         inner: tonic::client::Grpc<T>,
     }
-    impl SaverClient<tonic::transport::Channel> {
+    impl AdminPanelClient<tonic::transport::Channel> {
         /// Attempt to create a new client by connecting to a given endpoint.
         pub async fn connect<D>(dst: D) -> Result<Self, tonic::transport::Error>
         where
@@ -20,7 +20,7 @@ pub mod saver_client {
             Ok(Self::new(conn))
         }
     }
-    impl<T> SaverClient<T>
+    impl<T> AdminPanelClient<T>
     where
         T: tonic::client::GrpcService<tonic::body::BoxBody>,
         T::Error: Into<StdError>,
@@ -38,7 +38,7 @@ pub mod saver_client {
         pub fn with_interceptor<F>(
             inner: T,
             interceptor: F,
-        ) -> SaverClient<InterceptedService<T, F>>
+        ) -> AdminPanelClient<InterceptedService<T, F>>
         where
             F: tonic::service::Interceptor,
             T::ResponseBody: Default,
@@ -52,7 +52,7 @@ pub mod saver_client {
                 http::Request<tonic::body::BoxBody>,
             >>::Error: Into<StdError> + Send + Sync,
         {
-            SaverClient::new(InterceptedService::new(inner, interceptor))
+            AdminPanelClient::new(InterceptedService::new(inner, interceptor))
         }
         /// Compress requests with the given encoding.
         ///
@@ -70,10 +70,13 @@ pub mod saver_client {
             self
         }
         ///
-        pub async fn send_message(
+        pub async fn get_indexes(
             &mut self,
-            request: impl tonic::IntoRequest<super::Message>,
-        ) -> Result<tonic::Response<super::ResultMessage>, tonic::Status> {
+            request: impl tonic::IntoRequest<super::super::index::IndexListRequest>,
+        ) -> Result<
+            tonic::Response<super::super::index::IndexListResponse>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -84,33 +87,67 @@ pub mod saver_client {
                     )
                 })?;
             let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static("/rpc.Saver/SendMessage");
+            let path = http::uri::PathAndQuery::from_static(
+                "/admin.AdminPanel/GetIndexes",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        ///
+        pub async fn search(
+            &mut self,
+            request: impl tonic::IntoRequest<super::super::index::IndexSearchRequest>,
+        ) -> Result<
+            tonic::Response<super::super::index::IndexSearchResult>,
+            tonic::Status,
+        > {
+            self.inner
+                .ready()
+                .await
+                .map_err(|e| {
+                    tonic::Status::new(
+                        tonic::Code::Unknown,
+                        format!("Service was not ready: {}", e.into()),
+                    )
+                })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static("/admin.AdminPanel/Search");
             self.inner.unary(request.into_request(), path, codec).await
         }
     }
 }
 /// Generated server implementations.
-pub mod saver_server {
+pub mod admin_panel_server {
     #![allow(unused_variables, dead_code, missing_docs, clippy::let_unit_value)]
     use tonic::codegen::*;
-    /// Generated trait containing gRPC methods that should be implemented for use with SaverServer.
+    /// Generated trait containing gRPC methods that should be implemented for use with AdminPanelServer.
     #[async_trait]
-    pub trait Saver: Send + Sync + 'static {
+    pub trait AdminPanel: Send + Sync + 'static {
         ///
-        async fn send_message(
+        async fn get_indexes(
             &self,
-            request: tonic::Request<super::Message>,
-        ) -> Result<tonic::Response<super::ResultMessage>, tonic::Status>;
+            request: tonic::Request<super::super::index::IndexListRequest>,
+        ) -> Result<
+            tonic::Response<super::super::index::IndexListResponse>,
+            tonic::Status,
+        >;
+        ///
+        async fn search(
+            &self,
+            request: tonic::Request<super::super::index::IndexSearchRequest>,
+        ) -> Result<
+            tonic::Response<super::super::index::IndexSearchResult>,
+            tonic::Status,
+        >;
     }
     ///
     #[derive(Debug)]
-    pub struct SaverServer<T: Saver> {
+    pub struct AdminPanelServer<T: AdminPanel> {
         inner: _Inner<T>,
         accept_compression_encodings: EnabledCompressionEncodings,
         send_compression_encodings: EnabledCompressionEncodings,
     }
     struct _Inner<T>(Arc<T>);
-    impl<T: Saver> SaverServer<T> {
+    impl<T: AdminPanel> AdminPanelServer<T> {
         pub fn new(inner: T) -> Self {
             Self::from_arc(Arc::new(inner))
         }
@@ -144,9 +181,9 @@ pub mod saver_server {
             self
         }
     }
-    impl<T, B> tonic::codegen::Service<http::Request<B>> for SaverServer<T>
+    impl<T, B> tonic::codegen::Service<http::Request<B>> for AdminPanelServer<T>
     where
-        T: Saver,
+        T: AdminPanel,
         B: Body + Send + 'static,
         B::Error: Into<StdError> + Send + 'static,
     {
@@ -162,24 +199,26 @@ pub mod saver_server {
         fn call(&mut self, req: http::Request<B>) -> Self::Future {
             let inner = self.inner.clone();
             match req.uri().path() {
-                "/rpc.Saver/SendMessage" => {
+                "/admin.AdminPanel/GetIndexes" => {
                     #[allow(non_camel_case_types)]
-                    struct SendMessageSvc<T: Saver>(pub Arc<T>);
-                    impl<T: Saver> tonic::server::UnaryService<super::Message>
-                    for SendMessageSvc<T> {
-                        type Response = super::ResultMessage;
+                    struct GetIndexesSvc<T: AdminPanel>(pub Arc<T>);
+                    impl<
+                        T: AdminPanel,
+                    > tonic::server::UnaryService<super::super::index::IndexListRequest>
+                    for GetIndexesSvc<T> {
+                        type Response = super::super::index::IndexListResponse;
                         type Future = BoxFuture<
                             tonic::Response<Self::Response>,
                             tonic::Status,
                         >;
                         fn call(
                             &mut self,
-                            request: tonic::Request<super::Message>,
+                            request: tonic::Request<
+                                super::super::index::IndexListRequest,
+                            >,
                         ) -> Self::Future {
                             let inner = self.0.clone();
-                            let fut = async move {
-                                (*inner).send_message(request).await
-                            };
+                            let fut = async move { (*inner).get_indexes(request).await };
                             Box::pin(fut)
                         }
                     }
@@ -188,7 +227,48 @@ pub mod saver_server {
                     let inner = self.inner.clone();
                     let fut = async move {
                         let inner = inner.0;
-                        let method = SendMessageSvc(inner);
+                        let method = GetIndexesSvc(inner);
+                        let codec = tonic::codec::ProstCodec::default();
+                        let mut grpc = tonic::server::Grpc::new(codec)
+                            .apply_compression_config(
+                                accept_compression_encodings,
+                                send_compression_encodings,
+                            );
+                        let res = grpc.unary(method, req).await;
+                        Ok(res)
+                    };
+                    Box::pin(fut)
+                }
+                "/admin.AdminPanel/Search" => {
+                    #[allow(non_camel_case_types)]
+                    struct SearchSvc<T: AdminPanel>(pub Arc<T>);
+                    impl<
+                        T: AdminPanel,
+                    > tonic::server::UnaryService<
+                        super::super::index::IndexSearchRequest,
+                    > for SearchSvc<T> {
+                        type Response = super::super::index::IndexSearchResult;
+                        type Future = BoxFuture<
+                            tonic::Response<Self::Response>,
+                            tonic::Status,
+                        >;
+                        fn call(
+                            &mut self,
+                            request: tonic::Request<
+                                super::super::index::IndexSearchRequest,
+                            >,
+                        ) -> Self::Future {
+                            let inner = self.0.clone();
+                            let fut = async move { (*inner).search(request).await };
+                            Box::pin(fut)
+                        }
+                    }
+                    let accept_compression_encodings = self.accept_compression_encodings;
+                    let send_compression_encodings = self.send_compression_encodings;
+                    let inner = self.inner.clone();
+                    let fut = async move {
+                        let inner = inner.0;
+                        let method = SearchSvc(inner);
                         let codec = tonic::codec::ProstCodec::default();
                         let mut grpc = tonic::server::Grpc::new(codec)
                             .apply_compression_config(
@@ -215,7 +295,7 @@ pub mod saver_server {
             }
         }
     }
-    impl<T: Saver> Clone for SaverServer<T> {
+    impl<T: AdminPanel> Clone for AdminPanelServer<T> {
         fn clone(&self) -> Self {
             let inner = self.inner.clone();
             Self {
@@ -225,7 +305,7 @@ pub mod saver_server {
             }
         }
     }
-    impl<T: Saver> Clone for _Inner<T> {
+    impl<T: AdminPanel> Clone for _Inner<T> {
         fn clone(&self) -> Self {
             Self(self.0.clone())
         }
@@ -235,7 +315,7 @@ pub mod saver_server {
             write!(f, "{:?}", self.0)
         }
     }
-    impl<T: Saver> tonic::server::NamedService for SaverServer<T> {
-        const NAME: &'static str = "rpc.Saver";
+    impl<T: AdminPanel> tonic::server::NamedService for AdminPanelServer<T> {
+        const NAME: &'static str = "admin.AdminPanel";
     }
 }

@@ -1,0 +1,12 @@
+syntax = "proto3";
+package admin;
+import "proto/index.proto";
+
+message AdminAuth{
+    string token = 1;
+}
+
+service AdminPanel{
+    rpc GetIndexes(index.IndexListRequest) returns (index.IndexListResponse);
+    rpc Search(index.IndexSearchRequest) returns (index.IndexSearchResult);
+}

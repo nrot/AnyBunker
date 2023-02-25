@@ -148,6 +148,7 @@ async fn report_to_file(
         header.push(format!("\"{}\"", c.join(".")));
     }
 
+    //TODO Переделать на курсор БД
     let s = db
         .query_all(Statement::from_sql_and_values(
             db.get_database_backend(),

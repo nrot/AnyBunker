@@ -2,6 +2,7 @@ use sea_orm::DatabaseConnection;
 use tonic::{Request, Response, Status, transport::Server};
 
 mod rpc;
+mod admin;
 
 use crate::{core, credentials};
 

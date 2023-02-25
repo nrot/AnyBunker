@@ -1,0 +1,33 @@
+syntax = "proto3";
+package index;
+// import "google/protobuf/timestamp.proto";
+
+message Index{
+    string id = 1;
+    string name = 2;
+}
+
+message IndexRow{
+    string id = 1;
+    string date = 2;
+    string data = 3;
+}
+
+message IndexListRequest{}
+
+message IndexListResponse{
+    repeated Index indexes = 1;
+}
+
+message IndexSearchRequest{
+    Index index = 1;
+    string from = 2;
+    optional string to = 3;
+    optional uint64 take = 4;
+    optional uint64 skip = 5;
+    optional string query = 6;
+}
+
+message IndexSearchResult{
+    repeated IndexRow response = 1;
+}

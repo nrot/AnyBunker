@@ -1,4 +1,5 @@
 // @generated
+#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct Message {
     #[prost(string, tag="1")]
@@ -8,6 +9,7 @@ pub struct Message {
     #[prost(string, tag="3")]
     pub data: ::prost::alloc::string::String,
 }
+#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct ResultMessage {
     #[prost(bool, tag="1")]
