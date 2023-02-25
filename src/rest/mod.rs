@@ -19,8 +19,8 @@ use super::schemes as gschemes;
 
 pub fn routing(cfg: &mut web::ServiceConfig) {
     cfg.service(insert_json)
-        .service(ping)
-        .service(SwaggerUi::new("/swagger/{_:.*}").url("insert-json", InsertJson::openapi()));
+        .service(ping);
+        // .service(SwaggerUi::new("/swagger/{_:.*}").url("insert-json", InsertJson::openapi()));
     admin::routing(cfg);
 }
 

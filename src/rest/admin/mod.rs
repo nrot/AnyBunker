@@ -88,6 +88,7 @@ async fn create_index(
             ColumnDef::new(LogLog::Column::Id)
                 .uuid()
                 .extra("DEFAULT uuid_generate_v4()".into())
+                .primary_key()
                 .not_null(),
         )
         .col(
@@ -101,6 +102,7 @@ async fn create_index(
                 .json_binary()
                 .not_null(),
         )
+        //TODO: Добавить extra и USING columnar для работы с citus
         .to_owned();
     db.execute(sea_orm::Statement::from_string(
         db.get_database_backend(),

@@ -9,6 +9,7 @@ use crate::{credentials, model, schemes, handlers::{self, ReportPull}, event};
 
 async fn sqlx_migrate() {
     let p = sqlx::postgres::PgPoolOptions::new()
+        .test_before_acquire(true)
         .max_connections(credentials::postgres_connections())
         .connect(&credentials::postgres_uri())
         .await

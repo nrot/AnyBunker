@@ -1,6 +1,5 @@
 syntax = "proto3";
 package index;
-// import "google/protobuf/timestamp.proto";
 
 message Index{
     string id = 1;

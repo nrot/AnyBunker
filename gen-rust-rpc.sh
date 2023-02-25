@@ -8,7 +8,7 @@ echo "Generate frontend part"
 PROTOC_GEN_TS_PATH="./node/node_modules/.bin/protoc-gen-ts"
 
 # Directory to write generated code to (.js and .d.ts files)
-OUT_DIR="./src/lib/trpc/proto"
+OUT_DIR="./src/lib/trpc"
 
 cd frontend/
 npx protoc --ts_opt optimize_code_size --ts_out $OUT_DIR -I../ --proto_path ../proto proto/index.proto proto/admin.proto --experimental_allow_proto3_optional
