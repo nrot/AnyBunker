@@ -87,14 +87,14 @@ async fn create_index(
         .col(
             ColumnDef::new(LogLog::Column::Id)
                 .uuid()
-                .extra("DEFAULT uuid_generate_v4()".into())
+                .extra("DEFAULT uuid_generate_v4()")
                 .primary_key()
                 .not_null(),
         )
         .col(
             ColumnDef::new(LogLog::Column::Timestamp)
                 .timestamp_with_time_zone()
-                .extra("DEFAULT NOW()".into())
+                .extra("DEFAULT NOW()")
                 .not_null(),
         )
         .col(
