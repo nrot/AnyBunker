@@ -21,9 +21,9 @@ echo "Start postgres server"
 pg_ctl -D $TMP_DB/ -l $TMP_DB/logs -m fast -o "-F -i -p $PORT -k $SOCKET/" start 
 
 echo "Create user"
-psql -h $SOCKET -p $PORT -d postgres -c "CREATE ROLE $USER WITH LOGIN SUPERUSER INHERIT CREATEDB NOCREATEROLE PASSWORD '$PASSWORD';"
+psql -h $SOCKET -p $PORT -d postgres -c "CREATE ROLE $DBUSER WITH LOGIN SUPERUSER INHERIT CREATEDB NOCREATEROLE PASSWORD '$PASSWORD';"
 
-DATABASE_URL=postgres://$USER:$PASSWORD@localhost:$PORT/$DB 
+DATABASE_URL=postgres://$DBUSER:$PASSWORD@localhost:$PORT/$DB 
 
 echo "Create database"
 sqlx database create -D $DATABASE_URL

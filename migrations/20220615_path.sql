@@ -3,9 +3,9 @@
 SELECT 'THIS NEED CREATE FROM SUPERUSER';
 -- exit
 
--- CREATE EXTENSION IF NOT EXISTS plpython3u;
--- create EXTENSION IF NOT EXISTS jsonb_plpython3u;
--- create or replace function jsonb_recursive(val jsonb) returns table(key varchar)
+CREATE EXTENSION IF NOT EXISTS plpython3u;
+CREATE EXTENSION IF NOT EXISTS jsonb_plpython3u;
+-- CREATE OR REPLACE FUNCTION jsonb_recursive(val jsonb) RETURNS TABLE(KEY VARCHAR)
 -- transform for type jsonb
 -- as $$
 
@@ -32,5 +32,7 @@ SELECT 'THIS NEED CREATE FROM SUPERUSER';
 
 -- $$ language plpython3u;
 
--- select DISTINCT jsonb_recursive(data) from log_log;
--- select * from log_log
+select DISTINCT jsonb_recursive(data) from log_log;
+select * from log_log;
+
+-- TODO: REWRITE TO RUST FUNCITON
